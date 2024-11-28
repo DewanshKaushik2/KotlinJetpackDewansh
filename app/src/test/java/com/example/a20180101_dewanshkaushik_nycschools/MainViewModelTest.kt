@@ -2,8 +2,6 @@ package com.example.a20180101_dewanshkaushik_nycschools
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.a20180101_dewanshkaushik_nycschools.StudentItem
-import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.UiState
 import kotlinx.coroutines.Dispatchers

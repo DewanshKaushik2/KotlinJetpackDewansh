@@ -2,6 +2,7 @@ package com.example.a20180101_dewanshkaushik_nycschools
 
 //import com.example.a20180101_dewanshkaushik_nycschools.ui.theme._20180101DewanshKaushikNYCSchoolsTheme
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -31,16 +33,14 @@ import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityC
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.UiState
 import javax.inject.Inject
 
 
 //https://github.com/lubnamariyam/MovieList_Retrofit_API_In_Compose
 //https://www.youtube.com/watch?v=bIVGIEMgc7Q&t=49s
 class MainActivity : AppCompatActivity() {
+    var TAG = "MainActivity"
     private fun injectDependencies() {
         DaggerActivityComponent.builder()
             .applicationComponent((application as MVVMApplication).applicationComponent)
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     //function to show  data in list
     @Composable
     fun setData(blogList: List<StudentItem>) {
-        Greeting(blogList)
+        // Greeting(blogList)
     }
 
 //    private fun setupObserver() {
@@ -103,7 +103,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectDependencies()
-
+//        GlobalScope.launch ( Dispatchers.IO ) {
+//            GlobalScope.launch {
+//                val ss = async {
+//                    printData({ result ->
+//                        //use result
+//                        println("mainhu" + result.toString())
+//
+//                    })
+//                }
+//                val dd = ss.await();
+//
+//            }
+//        }
+//
         setContent {
             JetpackComposeAndroidExamplesTheme {
                 // A surface container using the 'background' color from the theme
@@ -111,71 +124,100 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     val list = mutableListOf<StudentItem>()
-                    Greeting(list)
-                    Greeting(blogList = mainViewModel.posts)
-                    mainViewModel.fetchUsers()
-                    LaunchedEffect(Unit) {
-                        GlobalScope.launch {
-                          val ss=  async {
-                                printData({ result ->
-                                    //use result
-                                    println("mainhu"+result.toString())
+                    Greeting(mainViewModel)
+                    //d Greeting(blogList = mainViewModel.posts)
 
-                                })
-                            }
-
-                        }
-                    }
+//                    LaunchedEffect(Unit) {
+//                        GlobalScope.launch {
+//                            val ss = async {
+//                                printData({ result ->
+//                                    //use result
+//                                    println("mainhu" + result.toString())
+//
+//                                })
+//                            }
+//                                val dd = ss.await();
+//                            Greeting(blogList = dd)
+//                        }
+//                    }
                 }
             }
         }
     }
 
-   suspend fun printData(myCallback: (result: ArrayList<StudentItem>?) -> Unit) {
-        var list:ArrayList<StudentItem>
-        topHeadlineRepository.getTopHeadlines().collect { value ->
-            list = value.toList() as ArrayList<StudentItem>
-            myCallback.invoke(list)
+    suspend fun printData(myCallback: (result: ArrayList<StudentItem>?) -> Unit) {
+        var list: ArrayList<StudentItem>
+        mainViewModel.uiState.collect {
+            when (it) {
+                is UiState.Error -> {
+                    Log.e(TAG.toString(), "Error")
+                }
+
+                is UiState.Loading -> {
+                    Log.e(TAG.toString(), "Loading")
+                }
+
+                is UiState.Success -> {
+                    Log.e(TAG.toString(), it.data.toString())
+                    myCallback.invoke(it.data)
+                }
+            }
         }
     }
 }
 
 @Composable
-fun Greeting(blogList: List<StudentItem>) {
-//    val myData = listOf("Hello,", "world!")
+fun Greeting(mainViewModel: MainViewModel) {
+    // Log.e(TAG, blogList.toString())
+    val posts by mainViewModel.posts;
     LazyColumn {
-        items(blogList) { item ->
-
-            val context = LocalContext.current
-            Column {
-                for (blog in blogList) {
-                    Card(
-                        shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .clickable(onClick = {
-                                Toast
-                                    .makeText(
-                                        context, "Author: ${blog.academicopportunities1}", Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                            }),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        )
-                    ) {
-                        Text(
-                            blog.academicopportunities1, style = TextStyle(
-                                fontSize = 16.sp, textAlign = TextAlign.Center
-                            ), modifier = Modifier.padding(16.dp)
-                        )
-                    }
-                }
-            }
-
+        items(posts) {
+                post ->
+            Text(text = post.academicopportunities1)
         }
     }
+    DisposableEffect(Unit) {
+        mainViewModel.fetchUsers()
+        onDispose {}
+    }
+//    LazyColumn {
+//        items(posts) { item ->
+//
+//            val context = LocalContext.current
+//            Column {
+//                for (blog in posts) {
+//                    if (blog == null)
+//                        return@Column
+//                    Card(
+//                        shape = RoundedCornerShape(4.dp),
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(16.dp)
+//                            .clickable(onClick = {
+//                                Toast
+//                                    .makeText(
+//                                        context,
+//                                        "Author: ${blog.academicopportunities1}",
+//                                        Toast.LENGTH_SHORT
+//                                    )
+//                                    .show()
+//                            }),
+//                        colors = CardDefaults.cardColors(
+//                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+//                        )
+//                    ) {
+//                        Text(
+//                            blog.academicopportunities1, style = TextStyle(
+//                                fontSize = 16.sp, textAlign = TextAlign.Center
+//                            ), modifier = Modifier.padding(16.dp)
+//                        )
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
+//
 //    Text(
 //        text = "Hello $name!",
 //        modifier = modifier

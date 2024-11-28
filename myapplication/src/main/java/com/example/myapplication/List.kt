@@ -55,16 +55,11 @@ fun main() {
         println(i)
     }
 
-//    var thirdLIst = intArrayOf()
-//    for(i in secondList){
-//        var k = i*2;
-//
-//    }
-//    for (i in integerList) {
-//        if (i) {
-//
-//        }
-//    }
-//
+    var thirdLIst = intArrayOf()
+    for(i in secondList){
+        var k = i*2;
+
+    }
+
 
 }
