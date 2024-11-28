@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
-// 9837563914
+
 //    @Composable
 //    fun PostList(viewModel: MainViewModel) {
 //        val posts by viewModel.posts.collectAsState()
