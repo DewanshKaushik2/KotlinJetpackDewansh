@@ -4,7 +4,7 @@ import androidx.activity.ComponentActivity
 
 //kotlin program chalane ke liye fun class ke bahar se call karna padega
 
-class Demo :ComponentActivity() {
+class Demo{
     init{
         hi("hellFo")
     }

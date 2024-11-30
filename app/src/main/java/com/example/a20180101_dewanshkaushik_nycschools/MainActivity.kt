@@ -1,6 +1,5 @@
 package com.example.a20180101_dewanshkaushik_nycschools
 
-//import com.example.a20180101_dewanshkaushik_nycschools.ui.theme._20180101DewanshKaushikNYCSchoolsTheme
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -12,21 +11,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityComponent
@@ -40,7 +49,7 @@ import javax.inject.Inject
 //https://github.com/lubnamariyam/MovieList_Retrofit_API_In_Compose
 //https://www.youtube.com/watch?v=bIVGIEMgc7Q&t=49s
 class MainActivity : AppCompatActivity() {
-    var TAG = "MainActivity"
+    var MYTAG: String = "MainActivity"
     private fun injectDependencies() {
         DaggerActivityComponent.builder()
             .applicationComponent((application as MVVMApplication).applicationComponent)
@@ -53,14 +62,6 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var topHeadlineRepository: TopHeadlineRepository
-    //  val mainViewModel by viewModels<MainViewModel>()
-
-
-    //function to show  data in list
-    @Composable
-    fun setData(blogList: List<StudentItem>) {
-        // Greeting(blogList)
-    }
 
 //    private fun setupObserver() {
 //        LaunchedEffect(Unit) {
@@ -86,37 +87,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-//    @Composable
-//    fun PostList(viewModel: MainViewModel) {
-//        val posts by viewModel.posts.collectAsState()
-//        LazyColumn {
-//            items(posts) { post ->
-//                Text(text = post)
-//            }
-//        }
-//        DisposableEffect(Unit) {
-//            viewModel.getPosts()
-//            onDispose {}
-//        }
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         injectDependencies()
-//        GlobalScope.launch ( Dispatchers.IO ) {
-//            GlobalScope.launch {
-//                val ss = async {
-//                    printData({ result ->
-//                        //use result
-//                        println("mainhu" + result.toString())
-//
-//                    })
-//                }
-//                val dd = ss.await();
-//
-//            }
-//        }
-//
         setContent {
             JetpackComposeAndroidExamplesTheme {
                 // A surface container using the 'background' color from the theme
@@ -125,7 +99,6 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     val list = mutableListOf<StudentItem>()
                     Greeting(mainViewModel)
-                    //d Greeting(blogList = mainViewModel.posts)
 
 //                    LaunchedEffect(Unit) {
 //                        GlobalScope.launch {
@@ -150,15 +123,15 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.uiState.collect {
             when (it) {
                 is UiState.Error -> {
-                    Log.e(TAG.toString(), "Error")
+                    Log.e(MYTAG.toString(), "Error")
                 }
 
                 is UiState.Loading -> {
-                    Log.e(TAG.toString(), "Loading")
+                    Log.e(MYTAG.toString(), "Loading")
                 }
 
                 is UiState.Success -> {
-                    Log.e(TAG.toString(), it.data.toString())
+                    Log.e(MYTAG.toString(), it.data.toString())
                     myCallback.invoke(it.data)
                 }
             }
@@ -169,62 +142,128 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun Greeting(mainViewModel: MainViewModel) {
     // Log.e(TAG, blogList.toString())
-    val posts by mainViewModel.posts;
+    val posts by mainViewModel.posts
+//    LazyColumn {
+//        items(posts) { post ->
+//            Text(text = post.academicopportunities1?:"null")
+//        }
+//    }
+//    DisposableEffect(Unit) {
+//        mainViewModel.fetchUsers()
+//        onDispose {}
+//    }
+    //new column
+    val context = LocalContext.current
+    val openAlertDialog= rememberSaveable { mutableStateOf(false) }
+
     LazyColumn {
-        items(posts) {
-                post ->
-            Text(text = post.academicopportunities1)
+        itemsIndexed(posts) { index, item ->
+
+            Column {
+                if (item == null) return@Column
+                Card(
+
+                    shape = RoundedCornerShape(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .clickable(onClick = {
+                            openAlertDialog.value = true;
+                            Toast
+                                .makeText(
+                                    context,
+                                    "Author: ${item.academicopportunities1}",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
+                        }),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    )
+                ) {
+
+                    val dd = item.academicopportunities1 ?: "null"
+                    val newIndex = index + 1;
+                    val tt = "" + newIndex + "->" + dd + ""
+                    Log.e("MainActivity", newIndex.toString())
+
+                    Text(
+                        tt, style = TextStyle(
+                            fontSize = 16.sp, textAlign = TextAlign.Center
+                        ), modifier = Modifier.padding(16.dp)
+                    )
+                    // showDialog(tt, openAlertDialog)
+
+                }
+                Button(onClick = { openAlertDialog.value = true }) {
+                    Text(text = "Open Dialog")
+                }
+                showDialog("hi", openAlertDialog)
+            }
+
+
         }
     }
     DisposableEffect(Unit) {
         mainViewModel.fetchUsers()
         onDispose {}
     }
-//    LazyColumn {
-//        items(posts) { item ->
-//
-//            val context = LocalContext.current
-//            Column {
-//                for (blog in posts) {
-//                    if (blog == null)
-//                        return@Column
-//                    Card(
-//                        shape = RoundedCornerShape(4.dp),
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(16.dp)
-//                            .clickable(onClick = {
-//                                Toast
-//                                    .makeText(
-//                                        context,
-//                                        "Author: ${blog.academicopportunities1}",
-//                                        Toast.LENGTH_SHORT
-//                                    )
-//                                    .show()
-//                            }),
-//                        colors = CardDefaults.cardColors(
-//                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-//                        )
-//                    ) {
-//                        Text(
-//                            blog.academicopportunities1, style = TextStyle(
-//                                fontSize = 16.sp, textAlign = TextAlign.Center
-//                            ), modifier = Modifier.padding(16.dp)
-//                        )
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
-//
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
+
 }
 
-@Preview(showBackground = true)
+@Composable
+fun showDialog(data: String, openAlertDialog: MutableState<Boolean>) {
+    if (openAlertDialog.value) {
+        AlertDialogExample(
+            onDismissRequest = {
+                openAlertDialog.value = false
+            },
+            onConfirmation = {
+                openAlertDialog.value = false
+                println("Confirmation registered") // Add logic here to handle confirmation.
+            },
+            dialogTitle = "Alert dialog example",
+//            dialogText = "This is an example of an alert dialog with buttons.",
+            dialogText = data,
+            icon = Icons.Default.Info
+        )
+    }
+
+}
+
+//dialog
+//@Composable
+@Composable
+fun AlertDialogExample(
+    onDismissRequest: () -> Unit,
+    onConfirmation: () -> Unit,
+    dialogTitle: String,
+    dialogText: String,
+    icon: ImageVector,
+) {
+    AlertDialog(icon = {
+        Icon(icon, contentDescription = "Example Icon")
+    }, title = {
+        Text(text = dialogTitle)
+    }, text = {
+        Text(text = dialogText)
+    }, onDismissRequest = {
+        onDismissRequest()
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirmation()
+        }) {
+            Text("Confirm")
+        }
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismissRequest()
+        }) {
+            Text("Dismiss")
+        }
+    })
+}
+
 @Composable
 fun GreetingPreview() {
     JetpackComposeAndroidExamplesTheme {
