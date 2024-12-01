@@ -16,8 +16,9 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
     private val _uiState = MutableStateFlow<UiState<StudentItem>>(UiState.Loading)
     val uiState: StateFlow<UiState<StudentItem>> = _uiState
 
+    var loading = MutableStateFlow(false);
+
     val posts: MutableState< List < StudentItem >> = mutableStateOf(emptyList())
-//  val posts: MutableState< List < Post >> = mutableStateOf(emptyList())
 
     //function to get data from server
     init {
@@ -27,7 +28,8 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
     private val _users = mutableStateListOf<StudentItem>()
     val users: List<StudentItem> = _users
 
-    public fun fetchUsers() {
+    fun fetchUsers() {
+        loading.value=true;
         viewModelScope.launch {
             try {
                 val response = topHeadlineRepository.getTopHeadlines()
@@ -35,37 +37,16 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
                     _uiState.value = UiState.Error(e.toString())
                     e.printStackTrace()
                 }.collect { value ->
-//                    _uiState.value=UiState.Success(value)
                     //   val list
                     _uiState.value = UiState.Success<StudentItem>(value)
                     posts.value = UiState.Success<StudentItem>(value).data
-
-                    run {
-                        //     posts = value.toList() as ArrayList<StudentItem>
-                    }
+                    loading.value=false;
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                loading.value=false;
             }
         }
     }
-
-    fun getData() {
-
-//        viewModelScope.launch {
-//            topHeadlineRepository.getTopHeadlines()
-//                .catch { e ->
-//                    _uiState.value = UiState.Error(e.toString())
-//                    var ff = mutableListOf<StudentItem>()
-//                    //     posts.value = Stu
-//
-//                }
-//                .collect {
-//                    //  _uiState.value = UiState.Success(it)
-//                    //d _uiState.value = mutableListOf<StudentItem>()
-//                }
-//        }
-    }
-
 
 }
