@@ -23,3 +23,4 @@ public class Singleton {
         list.add("1");
     }
 }
+

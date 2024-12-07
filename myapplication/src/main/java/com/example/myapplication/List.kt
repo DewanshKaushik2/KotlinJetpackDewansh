@@ -10,6 +10,7 @@ val mm: String by lazy {
 }
 
 fun main() {
+    mystring!!.toString()
     mystring?.toString()
     var k = mystring ?: "bar"
     mystring?.toString()

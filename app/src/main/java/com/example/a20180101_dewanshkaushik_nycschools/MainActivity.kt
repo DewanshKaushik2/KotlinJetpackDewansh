@@ -46,6 +46,11 @@ import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityC
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -58,12 +63,40 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mainViewModel: MainViewModel
 
+    fun myMethod() {
+        println("before")
+
+//        GlobalScope.launch {
+//            val myvalue = async {
+//                helloss("hi")
+//            }
+//            println(myvalue.await())
+//        }
+//        println("after")
+//
+        runBlocking {
+            launch {
+                delay(1000)
+                helloss("hi-launch")
+            }
+            async {
+                delay(500)
+                helloss("hi-async")
+            }
+        }
+    }
+
+    suspend fun helloss(value: String): String {
+        return "data processed $value"
+    }
+
     @Inject
     lateinit var topHeadlineRepository: TopHeadlineRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.e(MYTAG, "");
         injectDependencies()
+        myMethod()
         setContent {
             JetpackComposeAndroidExamplesTheme {
                 // A surface container using the 'background' color from the theme
@@ -84,34 +117,6 @@ class MainActivity : AppCompatActivity() {
             .applicationComponent((application as MVVMApplication).applicationComponent)
             .activityModule(ActivityModule(this)).build().inject(this)
     }
-
-//    private fun setupObserver() {
-//        lifecycleScope.launch {
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                mainViewModel.uiState.collect {
-//                    when (it) {
-//                        is UiState.Success -> {
-////                            val posts by mainViewModel.uiState.collectAsState()
-////                            setData(posts)
-////                            LoadingScreen(isLoading = false)
-//
-//                        }
-//
-//                        is UiState.Error -> {
-//                            TODO()
-////                            LoadingScreen(isLoading = false)
-//
-//                        }
-//
-//                        UiState.Loading -> {
-////                            LoadingScreen(isLoading = true)
-//                            TODO()
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     @Composable
     fun LoadingScreen() {
@@ -217,7 +222,6 @@ class MainActivity : AppCompatActivity() {
                 icon = Icons.Default.Info
             )
         }
-
     }
 
     //dialog
@@ -251,20 +255,5 @@ class MainActivity : AppCompatActivity() {
                 Text("Dismiss")
             }
         })
-    }
-
-    @Composable
-    fun GreetingPreview() {
-        JetpackComposeAndroidExamplesTheme {
-            val list = mutableListOf<Student>()
-//        list.add(Student("first student"))
-//        list.add(Student("first student"))
-//        list.add(Student("first student"))
-//        list.add(Student("first student"))
-//     //   Greeting("Android", list)
-
-        }
-
-
     }
 }

@@ -14,22 +14,24 @@ class ExtensionFunction public constructor() {
     }
 
 
-
     fun hi(hh: String) {
         println(hh)
     }
 }
+
 fun Int.myfunc(hh: Int): Int {
     return this + hh
 }
+
 fun String.myfuncString(): String {
     return "my name is  $this"
 }
+
 fun main(ss: Array<String>) {
     // println("hi")
     println(ExtensionFunction.hh);
     var hh = ExtensionFunction();
-println("dewansh".myfuncString())
+    println("dewansh".myfuncString())
     println(2.myfunc(3))
 }
 
