@@ -4,6 +4,10 @@ import java.util.Collections
 
 open class MyFile {
 
+    val myvar by lazy {
+        "xx"
+    }
+
     fun add(a: Int): Unit {
 
     }
@@ -57,7 +61,7 @@ fun main(array: Array<String>) {
     }
     Collections.sort(arrayOf)
     println(arrayOf)
-    var flag=1;
+    var flag = 1;
 //    do {
 //        print(flag)
 //        flag++;
@@ -67,8 +71,9 @@ fun main(array: Array<String>) {
 //        flag++
 //    }
     Int
-    for(i in 5.downTo(1)){
+    for (i in 5.downTo(1)) {
         print(i)
     }
+
 
 }

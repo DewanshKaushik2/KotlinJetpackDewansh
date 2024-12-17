@@ -46,7 +46,6 @@ import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityC
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -121,6 +120,15 @@ class MainActivity : AppCompatActivity() {
     @Composable
     fun LoadingScreen() {
         val state = mainViewModel.loading.collectAsState()
+        val counter = mainViewModel.counterState.collectAsState()
+        // Content when not loading
+        Text(
+            counter.toString(), style = TextStyle(
+                fontSize = 16.sp, textAlign = TextAlign.Center
+            ), modifier = Modifier.padding(16.dp)
+        )
+
+
         val statedd = state.value
         if (statedd) {
             // Show CircularProgressIndicator while loading
@@ -132,8 +140,12 @@ class MainActivity : AppCompatActivity() {
                 CircularProgressIndicator()
             }
         } else {
-            // Content when not loading
-            Text("Content loaded!")
+//            // Content when not loading
+//            Text(
+//                counter.toString(), style = TextStyle(
+//                    fontSize = 16.sp, textAlign = TextAlign.Center
+//                ), modifier = Modifier.padding(16.dp)
+//            )
         }
     }
 

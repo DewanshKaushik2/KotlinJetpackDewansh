@@ -38,13 +38,13 @@ fun String.addValue(): String {
 
 fun main(ss: Array<String>) {
     //  println("hi")
-    //d val func = addValue(2, 3)
-    //d println(func(2, 3))
-    //d print("my name is dewansh".addValue())
+    val func = addValue(2, 3)
+    println(func(2, 3))
+    println("my name is dewansh".addValue())
     var ss = HIgherOrderFunction()
     println(ss.hi())
 
-    val value:Int? = null
+    val value: Int? = null
     val name: String? = value as? String
 
 }

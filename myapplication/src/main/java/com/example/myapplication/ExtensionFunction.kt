@@ -3,6 +3,7 @@ package com.example.myapplication
 //kotlin program chalane ke liye fun class ke bahar se call karna padega
 
 class ExtensionFunction public constructor() {
+    val number=1;
     init {
         hi("hello")
     }
@@ -17,6 +18,8 @@ class ExtensionFunction public constructor() {
     fun hi(hh: String) {
         println(hh)
     }
+
+
 }
 
 fun Int.myfunc(hh: Int): Int {
@@ -33,5 +36,11 @@ fun main(ss: Array<String>) {
     var hh = ExtensionFunction();
     println("dewansh".myfuncString())
     println(2.myfunc(3))
+
+
 }
 
+val <ExtensionFunction> List<ExtensionFunction>.lastIndexx: Int
+    get() = 2 - 1
+
+// ExtensionFunction.number  // error: initializers are not allowed for extension properties

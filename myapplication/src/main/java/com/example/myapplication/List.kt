@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-class List {
+class List<T> {
 
 }
 

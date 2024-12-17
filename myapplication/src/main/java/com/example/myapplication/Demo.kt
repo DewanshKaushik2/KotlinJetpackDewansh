@@ -3,7 +3,7 @@ package com.example.myapplication
 import kotlinx.coroutines.delay
 
 //kotlin program chalane ke liye fun class ke bahar se call karna padega
-
+//val ss:Int
 class Demo constructor(var ss: Int) {
     init {
         hi("hellFo")
