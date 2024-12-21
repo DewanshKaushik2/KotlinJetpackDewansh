@@ -3,18 +3,20 @@ package com.example.myapplication
 class List<T> {
 
 }
-
+var myvalue = null
 var mystring: String? = null
 val mm: String by lazy {
     "value"
 }
 
 fun main() {
-    mystring!!.toString()
-    mystring?.toString()
+    mystring.let {
+        "hi"
+    }
+//    println(mystring!!.toString())
+    println(mystring?.toString())
     var k = mystring ?: "bar"
-    mystring?.toString()
-    print(k)
+    println(k)
     //   print(mm)
     //viewmodel side
 //    return flow<String> {
@@ -43,7 +45,7 @@ fun main() {
     //  }
 
 
-    var list = mutableListOf("1", "2", "3")
+    var list = mutableListOf("1", 2, 3,2.3)
     var integerList = intArrayOf(1, 2, 3, 4, 5, 6)
     var secondList = intArrayOf()
     //1357
