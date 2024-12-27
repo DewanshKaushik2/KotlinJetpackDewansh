@@ -2,6 +2,7 @@ package com.example.a20180101_dewanshkaushik_nycschools
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -42,14 +44,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityComponent
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
+import com.example.a20180101_dewanshkaushik_nycschools.ui.composables.TimerScreen
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -108,6 +115,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        mymain()
+        mainViewModel.myviewMethod()
     }
 
 
@@ -117,18 +126,35 @@ class MainActivity : AppCompatActivity() {
             .activityModule(ActivityModule(this)).build().inject(this)
     }
 
+    fun myviewmethod() {
+        lifecycleScope.launch {
+            //download image from server
+            withContext(Dispatchers.IO) {
+                val dd: ImageView
+                //show that image on ui
+                withContext(Dispatchers.Main) {
+
+                }
+            }
+        }
+    }
+
     @Composable
     fun LoadingScreen() {
         val state = mainViewModel.loading.collectAsState()
         val counter = mainViewModel.counterState.collectAsState()
+        var variable = rememberSaveable{""}
         // Content when not loading
+        LaunchedEffect(Unit) {
+            mainViewModel.counterState.collect{value->
+                variable=value.toString()
+            }
+        }
         Text(
-            counter.toString(), style = TextStyle(
+            variable, style = TextStyle(
                 fontSize = 16.sp, textAlign = TextAlign.Center
             ), modifier = Modifier.padding(16.dp)
         )
-
-
         val statedd = state.value
         if (statedd) {
             // Show CircularProgressIndicator while loading
@@ -151,7 +177,6 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun Greeting(mainViewModel: MainViewModel) {
-        LoadingScreen()
         val posts by mainViewModel.posts
         Log.e("MainActivity", posts.toString())
 
@@ -159,57 +184,62 @@ class MainActivity : AppCompatActivity() {
         val context = LocalContext.current
         val openAlertDialog = rememberSaveable { mutableStateOf(false) }
 
-        LazyColumn {
-            itemsIndexed(posts) { index, item ->
+        Column {
+            TimerScreen()
+         //   LoadingScreen()
+//this is list
+            LazyColumn {
+                itemsIndexed(posts) { index, item ->
 
-                Column {
-                    if (item == null) return@Column
-                    Card(
+                    Column {
+                        if (item == null) return@Column
+                        Card(
 
-                        shape = RoundedCornerShape(4.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .clickable(onClick = {
-                                openAlertDialog.value = true;
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Author: ${item.academicopportunities1}",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                            }),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                        )
-                    ) {
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .clickable(onClick = {
+                                    openAlertDialog.value = true;
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Author: ${item.academicopportunities1}",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                }),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            )
+                        ) {
 
-                        val dd = item.academicopportunities1 ?: "null"
-                        val newIndex = index + 1;
-                        val tt = "" + newIndex + "->" + dd + ""
-                        Log.e("MainActivity", newIndex.toString())
+                            val dd = item.academicopportunities1 ?: "null"
+                            val newIndex = index + 1;
+                            val tt = "" + newIndex + "->" + dd + ""
+                            Log.e("MainActivity", newIndex.toString())
 
-                        Text(
-                            tt, style = TextStyle(
-                                fontSize = 16.sp, textAlign = TextAlign.Center
-                            ), modifier = Modifier.padding(16.dp)
-                        )
-                        // showDialog(tt, openAlertDialog)
+                            Text(
+                                tt, style = TextStyle(
+                                    fontSize = 16.sp, textAlign = TextAlign.Center
+                                ), modifier = Modifier.padding(16.dp)
+                            )
+                            // showDialog(tt, openAlertDialog)
 
+                        }
+                        Button(onClick = { openAlertDialog.value = true }) {
+                            Text(text = "Open Dialog")
+                        }
+                        showDialog("hi", openAlertDialog)
                     }
-                    Button(onClick = { openAlertDialog.value = true }) {
-                        Text(text = "Open Dialog")
-                    }
-                    showDialog("hi", openAlertDialog)
+
+
                 }
-
-
             }
-        }
-        DisposableEffect(Unit) {
-            mainViewModel.fetchUsers()
-            onDispose {}
+            DisposableEffect(Unit) {
+                mainViewModel.fetchUsers()
+                onDispose {}
+            }
         }
 
     }
@@ -268,4 +298,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+    fun mymain(): Int = 7
+
+    fun myMethod(v: Int): Int {
+        val ff = { 1 }.asFlow()
+        return 1
+    }
+
+
 }
+
