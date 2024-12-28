@@ -1,4 +1,4 @@
-package com.example.a20180101_dewanshkaushik_nycschools
+package com.example.a20180101_dewanshkaushik_nycschools.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -45,6 +45,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
+import com.example.a20180101_dewanshkaushik_nycschools.MVVMApplication
+import com.example.a20180101_dewanshkaushik_nycschools.StudentItem
+import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
 import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityComponent
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.ui.composables.TimerScreen
@@ -72,14 +75,6 @@ class MainActivity : AppCompatActivity() {
     fun myMethod() {
         println("before")
 
-//        GlobalScope.launch {
-//            val myvalue = async {
-//                helloss("hi")
-//            }
-//            println(myvalue.await())
-//        }
-//        println("after")
-//
         runBlocking {
             launch {
                 delay(1000)
@@ -100,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var topHeadlineRepository: TopHeadlineRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e(MYTAG, "");
+        Log.e(MYTAG, "")
         injectDependencies()
         myMethod()
         setContent {
@@ -117,6 +112,20 @@ class MainActivity : AppCompatActivity() {
         }
         mymain()
         mainViewModel.myviewMethod()
+        lifecycleScope.launch {
+            mainViewModel.events.collect { event ->
+                // Handle the received event
+                Toast.makeText(this@MainActivity, event, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Trigger an event
+        lifecycleScope.launch {
+            mainViewModel.emitEvent("Hello, SharedFlow!")
+        }
+//        val list = flowOf{1}
+//        val list2= mutableListOf(1)
+//        list2.asFlow()
     }
 
 
@@ -143,11 +152,11 @@ class MainActivity : AppCompatActivity() {
     fun LoadingScreen() {
         val state = mainViewModel.loading.collectAsState()
         val counter = mainViewModel.counterState.collectAsState()
-        var variable = rememberSaveable{""}
+        var variable = rememberSaveable { "" }
         // Content when not loading
         LaunchedEffect(Unit) {
-            mainViewModel.counterState.collect{value->
-                variable=value.toString()
+            mainViewModel.counterState.collect { value ->
+                variable = value.toString()
             }
         }
         Text(
@@ -186,7 +195,7 @@ class MainActivity : AppCompatActivity() {
 
         Column {
             TimerScreen()
-         //   LoadingScreen()
+            //   LoadingScreen()
 //this is list
             LazyColumn {
                 itemsIndexed(posts) { index, item ->
@@ -200,7 +209,7 @@ class MainActivity : AppCompatActivity() {
                                 .fillMaxWidth()
                                 .padding(16.dp)
                                 .clickable(onClick = {
-                                    openAlertDialog.value = true;
+                                    openAlertDialog.value = true
                                     Toast
                                         .makeText(
                                             context,
@@ -215,7 +224,7 @@ class MainActivity : AppCompatActivity() {
                         ) {
 
                             val dd = item.academicopportunities1 ?: "null"
-                            val newIndex = index + 1;
+                            val newIndex = index + 1
                             val tt = "" + newIndex + "->" + dd + ""
                             Log.e("MainActivity", newIndex.toString())
 

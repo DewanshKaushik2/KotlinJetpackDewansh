@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
@@ -34,7 +36,6 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
     init {
         runMethod()
         fetchUsers()
-        startTimer(60)
         viewModelScope.launch {
             myflow.emit("hi")
             myflow.emit("hi")
@@ -45,7 +46,7 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
         var count = 0
         viewModelScope.launch {
             while (true) {
-                println(count++)
+             //d   println(count++)
                 delay(1000)
             }
         }
@@ -77,15 +78,7 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
         }
     }
 
-    //    fun startTimer(count: Int): Flow<Int> {
-//        var count = 0
-//
-//        return flow<Int> {
-//            count++
-//            emit(count)
-//        }
-//    }
-    fun startTimer(durationInSeconds: Int): Flow<Int> {
+     fun startTimer(durationInSeconds: Int): Flow<Int> {
         return flow {
             for (time in durationInSeconds downTo 0) {
                 emit(time) // Emit the current time
@@ -102,7 +95,7 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
         val head = topHeadlineRepository.myMethod()
         viewModelScope.launch {
             head.collect { value ->
-                println(value)
+          //d      println(value)
             }
         }
     }
@@ -114,5 +107,19 @@ class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : 
                 emit(value)
             }
         }
+    }
+    // Define a MutableSharedFlow
+    private val _events = MutableSharedFlow<String>(
+        replay = 10, // Replay the last emitted value to new collectors
+        extraBufferCapacity = 10 // Allow a buffer of 10 events
+    )
+
+
+    // Expose SharedFlow to observers
+    val events = _events.asSharedFlow()
+
+    // Emit events
+    suspend fun emitEvent(event: String) {
+        _events.emit(event)
     }
 }
