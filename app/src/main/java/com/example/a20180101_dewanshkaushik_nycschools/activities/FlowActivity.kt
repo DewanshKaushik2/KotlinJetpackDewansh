@@ -20,10 +20,8 @@ import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityC
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.FlowViewModel
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class FlowActivity : AppCompatActivity() {
@@ -55,25 +53,25 @@ class FlowActivity : AppCompatActivity() {
             }
         }
         GlobalScope.launch {
-                val sharedFlow = flow<Int>{
-                    emit(1)
-                    emit(2)
-                    emit(3)
-                }
+            val sharedFlow = flow<Int> {
+                emit(1)
+                emit(2)
+                emit(3)
+            }
 
-                // Collecting values
-                launch {
-                    sharedFlow.collect { value ->
-                        println("Collector received: $value")
-                    }
+            // Collecting values
+            launch {
+                sharedFlow.collect { value ->
+                    println("Collector received: $value")
                 }
+            }
 
-                // New collector
-                launch {
-                    sharedFlow.collect { value ->
-                        println("New collector received: $value")
-                    }
+            // New collector
+            launch {
+                sharedFlow.collect { value ->
+                    println("New collector received: $value")
                 }
+            }
             // Emitting values
             launch {
             }
