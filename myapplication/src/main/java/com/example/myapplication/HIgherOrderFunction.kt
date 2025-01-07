@@ -10,7 +10,6 @@ class HIgherOrderFunction public constructor() {
     companion object {
         const val hh: Int = 0
         const val hh2: Int = 0
-
     }
 
     fun hi(hh: String) {
@@ -24,7 +23,7 @@ fun HIgherOrderFunction.hi(): HIgherOrderFunction {
     return HIgherOrderFunction()
 }
 
-inline fun addValue(value: Int, b: Int): (Int, Int) -> Int {
+inline fun addValue(value: Float, b: Float): (Float, Float) -> Float {
     return { a, b -> a + b }
 }
 
@@ -38,8 +37,8 @@ fun String.addValue(): String {
 
 fun main(ss: Array<String>) {
     //  println("hi")
-    val func = addValue(2, 3)
-    println(func(2, 3))
+    val func = addValue(2f, 3.0f)
+    println(func(2.0f, 3f))
     println("my name is dewansh".addValue())
     var ss = HIgherOrderFunction()
     println(ss.hi())

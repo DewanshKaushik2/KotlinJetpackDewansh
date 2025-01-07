@@ -1,5 +1,6 @@
 package com.example.a20180101_dewanshkaushik_nycschools.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -194,8 +195,8 @@ class MainActivity : AppCompatActivity() {
         val openAlertDialog = rememberSaveable { mutableStateOf(false) }
 
         Column {
-            TimerScreen()
-            //   LoadingScreen()
+           // TimerScreen()
+               LoadingScreen()
 //this is list
             LazyColumn {
                 itemsIndexed(posts) { index, item ->
@@ -203,13 +204,18 @@ class MainActivity : AppCompatActivity() {
                     Column {
                         if (item == null) return@Column
                         Card(
-
                             shape = RoundedCornerShape(4.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
                                 .clickable(onClick = {
-                                    openAlertDialog.value = true
+
+                                    val intent = Intent(context, FlowActivity::class.java)
+                                    // Put extra data into the Intent
+                                    intent.putExtra("MESSAGE", item.dbn)
+                                    startActivity(intent)
+//                                    context.startActivity(Intent(context, FlowActivity::class.java))
+                                 //d   openAlertDialog.value = true
                                     Toast
                                         .makeText(
                                             context,
@@ -222,27 +228,26 @@ class MainActivity : AppCompatActivity() {
                                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
                             )
                         ) {
-
                             val dd = item.academicopportunities1 ?: "null"
                             val newIndex = index + 1
                             val tt = "" + newIndex + "->" + dd + ""
                             Log.e("MainActivity", newIndex.toString())
-
                             Text(
                                 tt, style = TextStyle(
                                     fontSize = 16.sp, textAlign = TextAlign.Center
-                                ), modifier = Modifier.padding(16.dp)
+                                ), modifier = Modifier.padding(16.dp).clickable {
+                                    val intent = Intent(context, FlowActivity::class.java)
+                                    intent.putExtra("MESSAGE", item.dbn)
+                                    startActivity(intent)       }
                             )
                             // showDialog(tt, openAlertDialog)
-
                         }
-                        Button(onClick = { openAlertDialog.value = true }) {
+                        /*Button(onClick = { openAlertDialog.value = true }
+                        ,modifier= Modifier.padding(16.dp)) {
                             Text(text = "Open Dialog")
-                        }
+                        }*/
                         showDialog("hi", openAlertDialog)
                     }
-
-
                 }
             }
             DisposableEffect(Unit) {
@@ -250,14 +255,13 @@ class MainActivity : AppCompatActivity() {
                 onDispose {}
             }
         }
-
     }
 
     @Composable
     fun showDialog(data: String, openAlertDialog: MutableState<Boolean>) {
-        var selectedCity = rememberSaveable {
+       /* var selectedCity = rememberSaveable {
             mutableStateOf(StudentItem("Madrid"))
-        }
+        }*/
         if (openAlertDialog.value) {
             AlertDialogExample(
                 onDismissRequest = {

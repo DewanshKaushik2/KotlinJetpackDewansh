@@ -128,4 +128,14 @@ dependencies {
     // AndroidX Test - for working with LiveData and ViewModel in tests
     testImplementation 'androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.1'
     testImplementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+    // For JUnit 5
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.0"
+
+// For Mockito
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
+
+// For Turbine
+    testImplementation "app.cash.turbine:turbine:1.0.0"
+
 }

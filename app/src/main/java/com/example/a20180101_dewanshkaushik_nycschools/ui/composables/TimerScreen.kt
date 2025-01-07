@@ -20,41 +20,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.a20180101_dewanshkaushik_nycschools.activities.CoroutineActivity
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
 
-@Composable
-fun TimerScreen(viewModel: MainViewModel = viewModel()) {
-    val context = LocalContext.current;
-    val timerDuration = 60 // Duration in seconds
-    var isTimerRunning by remember { mutableStateOf(false) }
-    val timerFlow = remember { mutableStateOf(viewModel.startTimer(timerDuration)) }
-    val currentTime by timerFlow.value.collectAsState(initial = timerDuration)
+    @Composable
+    fun TimerScreen(viewModel: MainViewModel = viewModel()) {
+        val context = LocalContext.current;
+        val timerDuration = 60 // Duration in seconds
+        var isTimerRunning by remember { mutableStateOf(false) }
+        val timerFlow = remember { mutableStateOf(viewModel.startTimer(timerDuration)) }
+        val currentTime by timerFlow.value.collectAsState(initial = timerDuration)
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "$currentTime seconds left", style = MaterialTheme.typography.headlineMedium
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "$currentTime seconds left", style = MaterialTheme.typography.headlineMedium
+            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            isTimerRunning = !isTimerRunning
-            if (!isTimerRunning) {
-                timerFlow.value = viewModel.startTimer(timerDuration)
+            Button(onClick = {
+                isTimerRunning = !isTimerRunning
+                if (!isTimerRunning) {
+                    timerFlow.value = viewModel.startTimer(timerDuration)
+                }
+            }) {
+                Text(if (isTimerRunning) "Restart Timer" else "Start Timer")
             }
-        }) {
-            Text(if (isTimerRunning) "Restart Timer" else "Start Timer")
-        }
 
-        Button(onClick = {
-            context.startActivity(Intent(context, CoroutineActivity::class.java))
-        }) {
-            Text(text = "Show List")
+            Button(onClick = {
+                context.startActivity(Intent(context, CoroutineActivity::class.java))
+            }) {
+                Text(text = "Show List")
+            }
+
         }
+     //   saveDatainApi()
     }
-}
 

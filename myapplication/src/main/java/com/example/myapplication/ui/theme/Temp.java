@@ -33,6 +33,7 @@ public class Temp {
             }
         };
         thread1.start();
+        System.exit(1);
     }
 
     public void print(Node head) {

@@ -4,6 +4,22 @@ package com.example.myapplication
 
 
 data class Person(var id: Int, var name: String, var className: String)
+class Myclass(id: Int) {
+    fun mydoo() {
+        val sum = higherorder(2f, 3f);
+        val finalsum = sum(2f, 3f)
+        print(finalsum)
+        "".myfunc()
+    }
+}
+
+fun higherorder(first: Float, second: Float): (Float, Float) -> Float {
+    return { first, second -> first + second }
+}
+
+fun String.myfunc(): String {
+    return this
+}
 
 //class myclass :Person(1,"","") {
 //
@@ -13,6 +29,8 @@ fun main(ss: Array<String>) {
     secondMethod()
     thirdMethod()
     fourthmethod()
+    val vv = Myclass(2).mydoo()
+    println("" + vv + "mera wala")
 }
 
 fun thirdMethod(): IntArray {

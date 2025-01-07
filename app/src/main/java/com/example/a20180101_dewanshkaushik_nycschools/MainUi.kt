@@ -16,7 +16,7 @@ import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
 fun MainUi(userViewModel: MainViewModel = viewModel()) {
     // Fetch users if they haven't been fetched yet
    // userViewModel.getData()
-
+var System=null;
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         userViewModel.users.forEach { user ->
             Text(text = "${user.academicopportunities1} - ${user.academicopportunities1}")

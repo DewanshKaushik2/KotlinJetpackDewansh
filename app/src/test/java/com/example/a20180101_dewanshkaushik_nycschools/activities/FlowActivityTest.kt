@@ -5,13 +5,18 @@ import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.FlowViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FlowActivityTest {
@@ -27,14 +32,18 @@ class FlowActivityTest {
         Dispatchers.setMain(testDispatcher)
 
         // Mock FlowViewModel
-        flowViewModel = mockk(relaxed = true)
+        flowViewModel = mock()
 
         // Mock FlowActivity
-        flowActivity = spyk(FlowActivity(), recordPrivateCalls = true)
+        flowActivity = spy(FlowActivity(), recordPrivateCalls = true)
         every { flowActivity.flowViewModel } returns flowViewModel
 
         // Mock lifecycleScope
         every { flowActivity.lifecycleScope } returns testScope
+    }
+
+    private fun every(function: () -> MutableSharedFlow<String>): Any {
+
     }
 
     @After
@@ -69,6 +78,10 @@ class FlowActivityTest {
         verify { flowActivity.TAG }
     }
 
+    private fun verify(exactly: Int, function: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
     @Test
     fun `test GlobalScope collects shared flow`() = testScope.runTest {
         val sharedFlow = MutableSharedFlow<Int>()
@@ -92,4 +105,8 @@ class FlowActivityTest {
         // Verify all collected values
         assert(collector == listOf(1, 2, 3))
     }
+}
+
+private infix fun Any.returns(asSharedFlow: SharedFlow<String>) {
+    TODO("Not yet implemented")
 }

@@ -15,12 +15,18 @@ public class Singleton {
         }
         return instance;
     }
-
+public static void main(String... s){
+        Singleton gg=new Singleton();
+        gg.addValues();
+}
     public void addValues(){
         list.add("1");
         list.add("1");
         list.add("1");
         list.add("1");
+        short x=10;
+        x= (short) (x*5);
+        System.out.println(x);
     }
 }
 

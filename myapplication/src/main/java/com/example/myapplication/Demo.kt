@@ -18,6 +18,9 @@ class Demo constructor(var ss: Int) {
         println(hh)
         print(ss);
     }
+    public fun reverseString(string:String):String{
+        return string.reversed();
+    }
 }
 
 suspend fun hello(value: String): String {

@@ -41,8 +41,8 @@ class MainViewModelTest {
     fun `getData returns success state`() = runBlocking {
         // Arrange
         val studentItems = listOf(
-            StudentItem("1"),
-            StudentItem("2")
+            StudentItem("1","","","","",""),
+            StudentItem("2","","","","","")
         )
         `when`(topHeadlineRepository.getTopHeadlines()).thenReturn(flow { emit(studentItems) })
 
@@ -51,7 +51,7 @@ class MainViewModelTest {
 
         // Move the dispatcher forward to process the coroutine
         testDispatcher.scheduler.advanceUntilIdle()
-        val student = StudentItem("1")
+        val student = StudentItem("1","","","","","")
         // Assert
       //  assertEquals(UiState.Success(student), viewModel.uiState.value)
     }

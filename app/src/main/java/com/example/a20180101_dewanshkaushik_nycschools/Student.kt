@@ -12,13 +12,31 @@ class Student : ArrayList<StudentItem>()
 //@Parcelable
 data class StudentItem(
     @SerializedName("academicopportunities1")
-    val academicopportunities1: String?,
+    val academicopportunities1: String?
+    ,
+    @SerializedName("school_name")
+    val school_name: String?
+    ,
+    @SerializedName("dbn")
+    val dbn: String?
+    ,
+    @SerializedName("num_of_sat_test_takers")
+    val num_of_sat_test_takers: String?
+    ,
+    @SerializedName("sat_critical_reading_avg_score")
+    val sat_critical_reading_avg_score: String?
+    ,
+    @SerializedName("sat_math_avg_score")
+    val sat_math_avg_score: String?
+
+
 ) : Parcelable {
 
     override fun describeContents() = Parcelable.CONTENTS_FILE_DESCRIPTOR
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(academicopportunities1)
+        dest.writeString(school_name)
     }
 
     companion object {
@@ -26,7 +44,14 @@ data class StudentItem(
         val CREATOR = object : Parcelable.Creator<StudentItem> {
             override fun createFromParcel(source: Parcel): StudentItem {
                 val data = source.readString()
-                return StudentItem(data)
+                return StudentItem(source.readString()
+                    ,source.readString()
+                    ,source.readString()
+                    ,source.readString()
+                    ,source.readString()
+                    ,source.readString()
+
+                )
             }
 
             override fun newArray(size: Int) = arrayOfNulls<StudentItem>(size)
