@@ -5,6 +5,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt' // <- Add this line
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     namespace 'com.example.a20180101_dewanshkaushik_nycschools'
@@ -55,12 +56,14 @@ android {
         project.configurations.all {
             resolutionStrategy.eachDependency { details ->
                 if (details.requested.group == 'com.android.support'
-                        && !details.requested.name.contains('multidex') ) {
+                        && !details.requested.name.contains('multidex')) {
                     details.useVersion "version which should be used - in your case 26.0.0-beta2"
                 }
             }
         }
     }
+    // kapt.incremental.apt=true
+
 }
 
 dependencies {
@@ -81,9 +84,6 @@ dependencies {
     androidTestImplementation libs.androidx.ui.test.junit4
     debugImplementation libs.androidx.ui.tooling
     debugImplementation libs.androidx.ui.test.manifest
-    implementation "com.google.dagger:dagger:2.42"
-   // implementation "com.google.dagger:dagger-compiler:2.42"
-    implementation 'com.google.dagger:dagger-compiler:2.11'
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -95,8 +95,6 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.1.0' // For testing LiveData or StateFlow
 
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
-    kapt 'com.google.dagger:dagger-android-processor:2.15'
-    kapt 'com.google.dagger:dagger-compiler:2.15'
 
     // ViewModel and LiveData for MVVM architecture
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
@@ -137,5 +135,17 @@ dependencies {
 
 // For Turbine
     testImplementation "app.cash.turbine:turbine:1.0.0"
+//dagger hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.android.compiler
 
+    implementation 'com.google.guava:guava:29.0-android'
+    /*//dagger
+        implementation "com.google.dagger:dagger:2.42"
+   // implementation "com.google.dagger:dagger-compiler:2.42"
+    implementation 'com.google.dagger:dagger-compiler:2.11'
+  kapt 'com.google.dagger:dagger-android-processor:2.15'
+    kapt 'com.google.dagger:dagger-compiler:2.15'
+
+    * */
 }

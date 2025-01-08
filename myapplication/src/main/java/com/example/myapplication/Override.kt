@@ -5,7 +5,11 @@ open class Override {
         println("parent")
     }
 }
-
+open class MyClass{
+    open fun showMessage() {
+        println("parent")
+    }
+}
 interface SecondParent {
 }
 
@@ -24,3 +28,14 @@ fun main() {
     parent.showMessage();
 
 }
+
+
+
+
+
+
+
+
+
+
+

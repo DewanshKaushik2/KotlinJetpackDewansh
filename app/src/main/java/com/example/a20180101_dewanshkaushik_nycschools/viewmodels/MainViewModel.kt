@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.a20180101_dewanshkaushik_nycschools.StudentItem
 import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +21,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val topHeadlineRepository: TopHeadlineRepository) : ViewModel() {
+@HiltViewModel
+class MainViewModel@Inject constructor(private val topHeadlineRepository: TopHeadlineRepository) :
+    ViewModel() {
     private val _uiState = MutableStateFlow<UiState<StudentItem>>(UiState.Loading)
     val uiState: StateFlow<UiState<StudentItem>> = _uiState
 

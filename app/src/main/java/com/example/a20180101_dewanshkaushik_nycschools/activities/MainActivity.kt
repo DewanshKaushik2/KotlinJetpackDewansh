@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -49,11 +50,11 @@ import androidx.lifecycle.lifecycleScope
 import com.example.a20180101_dewanshkaushik_nycschools.MVVMApplication
 import com.example.a20180101_dewanshkaushik_nycschools.StudentItem
 import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
-import com.example.a20180101_dewanshkaushik_nycschools.component.DaggerActivityComponent
 import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.ui.composables.TimerScreen
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -66,12 +67,12 @@ import javax.inject.Inject
 
 //https://github.com/lubnamariyam/MovieList_Retrofit_API_In_Compose
 //https://www.youtube.com/watch?v=bIVGIEMgc7Q&t=49s
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     var MYTAG: String = "MainActivity"
 
     // inject viewmodel in activity
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     fun myMethod() {
         println("before")
@@ -97,7 +98,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.e(MYTAG, "")
-        injectDependencies()
         myMethod()
         setContent {
             JetpackComposeAndroidExamplesTheme {
@@ -129,12 +129,14 @@ class MainActivity : AppCompatActivity() {
 //        list2.asFlow()
     }
 
+/*
 
     private fun injectDependencies() {
         DaggerActivityComponent.builder()
             .applicationComponent((application as MVVMApplication).applicationComponent)
             .activityModule(ActivityModule(this)).build().inject(this)
     }
+*/
 
     fun myviewmethod() {
         lifecycleScope.launch {

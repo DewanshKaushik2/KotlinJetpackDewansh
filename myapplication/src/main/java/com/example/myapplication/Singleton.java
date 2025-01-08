@@ -3,7 +3,9 @@ package com.example.myapplication;
 import java.util.ArrayList;
 
 public class Singleton {
+private Singleton (){
 
+}
     static Singleton instance;
     ArrayList<String> list = new ArrayList<>();
     public static Singleton getInstance(){
@@ -15,10 +17,6 @@ public class Singleton {
         }
         return instance;
     }
-public static void main(String... s){
-        Singleton gg=new Singleton();
-        gg.addValues();
-}
     public void addValues(){
         list.add("1");
         list.add("1");
@@ -29,4 +27,3 @@ public static void main(String... s){
         System.out.println(x);
     }
 }
-

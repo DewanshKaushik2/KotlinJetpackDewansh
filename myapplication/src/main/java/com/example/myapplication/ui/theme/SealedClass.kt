@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 sealed class SealedClass {
     // A common property for all subclasses
     abstract val message: String
-
+    abstract fun house();
     // A function common to all subclasses
     fun printMessage() {
         println("Message: $message")
@@ -20,12 +20,12 @@ sealed class SealedClass {
 
 }
 
-class Myclass(val string: String) {
+class Myclass(val string: String, override val message: String) : SealedClass() {
     lateinit var name: String
     var age: Int = 0
 
     // Secondary constructor
-    constructor(name: String, age: Int) : this(name) {
+    constructor(name: String, age: Int) : this(name,"") {
         this.name = name
         this.age = age
         this.name=string;
@@ -37,6 +37,10 @@ class Myclass(val string: String) {
 
     fun myfunc() {
         print(string)
+    }
+
+    override fun house() {
+        TODO("Not yet implemented")
     }
 }
 

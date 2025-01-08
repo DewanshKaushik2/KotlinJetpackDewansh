@@ -13,3 +13,12 @@ annotation class ActivityContext
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class BaseUrl
+
+//
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MainActivityQualifier
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MyActivityQualifier

@@ -7,16 +7,19 @@ import com.example.a20180101_dewanshkaushik_nycschools.di.ApplicationContext
 import com.example.a20180101_dewanshkaushik_nycschools.di.BaseUrl
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule(private val application: MVVMApplication) {
+@InstallIn(SingletonComponent::class)
+    object ApplicationModule/*private val application: MVVMApplication*/ {
 
     @ApplicationContext
     @Provides
-    fun provideContext(): Context {
+    fun provideContext(application: MVVMApplication): Context {
         return application
     }
 

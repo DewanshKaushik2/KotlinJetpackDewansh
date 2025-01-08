@@ -1,4 +1,4 @@
-package com.example.a20180101_dewanshkaushik_nycschools
+package com.example.a20180101_dewanshkaushik_nycschools.activities
 
 import android.app.Activity
 import android.app.NotificationChannel

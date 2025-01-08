@@ -11,12 +11,14 @@ class ExtensionFunction public constructor() {
     companion object {
         const val hh: Int = 12
         const val hh2: Int = 0
-
     }
 
 
     fun hi(hh: String) {
         println(hh)
+         val hh: Int = 12
+
+
     }
 
 

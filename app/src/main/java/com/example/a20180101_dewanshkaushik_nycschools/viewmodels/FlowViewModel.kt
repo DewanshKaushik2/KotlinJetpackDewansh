@@ -9,6 +9,7 @@ import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
 import com.example.a20180101_dewanshkaushik_nycschools.models.StudentDetail
 import com.example.a20180101_dewanshkaushik_nycschools.models.StudentDetailItem
 import com.example.a20180101_dewanshkaushik_nycschools.models.UiStateSecond
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,8 +17,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FlowViewModel(private val topHeadlineRepository: TopHeadlineRepository) : ViewModel() {
+@HiltViewModel
+class FlowViewModel @Inject constructor(private val topHeadlineRepository: TopHeadlineRepository)
+    : ViewModel() {
 
     val events = MutableSharedFlow<String>()
 

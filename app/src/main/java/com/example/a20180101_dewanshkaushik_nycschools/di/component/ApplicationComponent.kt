@@ -9,9 +9,12 @@ import com.example.a20180101_dewanshkaushik_nycschools.module.ApplicationModule
 import dagger.Component
 import javax.inject.Singleton
 
+/*
 @Singleton
 @Component(modules = [ApplicationModule::class])
-interface ApplicationComponent /*: AndroidInjector<MVVMApplication> */{
+interface ApplicationComponent */
+/*: AndroidInjector<MVVMApplication> *//*
+{
 
     fun inject(application: MVVMApplication)
 
@@ -22,4 +25,4 @@ interface ApplicationComponent /*: AndroidInjector<MVVMApplication> */{
 
     fun getTopHeadlineRepository(): TopHeadlineRepository
 
-}
+}*/
