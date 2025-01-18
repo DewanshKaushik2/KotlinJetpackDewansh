@@ -10,7 +10,7 @@ print("aand")
 }
 
 fun main(){
-    var ss = Singleton()
+  //  var ss = Singleton()
    Singletond.aand()
    Singletond.aa
 }

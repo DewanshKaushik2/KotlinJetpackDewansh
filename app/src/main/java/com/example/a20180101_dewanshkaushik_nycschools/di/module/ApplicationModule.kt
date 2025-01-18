@@ -3,7 +3,7 @@ package com.example.a20180101_dewanshkaushik_nycschools.module
 import android.content.Context
 import com.example.a20180101_dewanshkaushik_nycschools.MVVMApplication
 import com.example.a20180101_dewanshkaushik_nycschools.NetworkService
-import com.example.a20180101_dewanshkaushik_nycschools.di.ApplicationContext
+import com.example.a20180101_dewanshkaushik_nycschools.di.AppllicationContext
 import com.example.a20180101_dewanshkaushik_nycschools.di.BaseUrl
 import dagger.Module
 import dagger.Provides
@@ -15,9 +15,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-    object ApplicationModule/*private val application: MVVMApplication*/ {
+    object ApplicationModule {
 
-    @ApplicationContext
+    @AppllicationContext
     @Provides
     fun provideContext(application: MVVMApplication): Context {
         return application

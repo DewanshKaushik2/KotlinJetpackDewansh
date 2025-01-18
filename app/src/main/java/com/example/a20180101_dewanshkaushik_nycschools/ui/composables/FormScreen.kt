@@ -24,9 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.a20180101_dewanshkaushik_nycschools.R
 import com.example.a20180101_dewanshkaushik_nycschools.activities.FlowActivity
-import androidx.compose.ui.res.imageResource
+import com.example.a20180101_dewanshkaushik_nycschools.activities.CoroutineActivity
 
 @Composable
 fun FormScreen(activity: CoroutineActivity) {

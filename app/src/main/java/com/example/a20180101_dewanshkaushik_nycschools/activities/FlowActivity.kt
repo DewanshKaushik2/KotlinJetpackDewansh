@@ -11,7 +11,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,10 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
-import com.example.a20180101_dewanshkaushik_nycschools.MVVMApplication
 import com.example.a20180101_dewanshkaushik_nycschools.models.StudentDetailItem
 import com.example.a20180101_dewanshkaushik_nycschools.models.UiStateSecond
-import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.FlowViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
@@ -39,20 +38,28 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class FlowActivity : AppCompatActivity() {
     val TAG = FlowActivity::class.java.name
+    companion object MY{
+        const val staticobject:String=""
+    }
+    @Inject
+    lateinit var mainActivity: MainActivity
+
+    val lazyVariable: String by lazy {
+        ""
+    };
 
     private val flowViewModel: FlowViewModel by viewModels()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val message = intent.getStringExtra("MESSAGE")
-
-            setContent {
-                Loading(
-                    StudentDetailItem(
-                        "", "", "", "", "", ""
-                    )
+        setContent {
+            Loading(
+                StudentDetailItem(
+                    "", "", "", "", "", ""
                 )
-            }
+            )
+        }
         lifecycleScope.launch {
             flowViewModel.emitEvent("1")
             flowViewModel.emitEvent("2")
@@ -121,17 +128,12 @@ class FlowActivity : AppCompatActivity() {
     }
 
     val MYTAG = FlowActivity::class.java.simpleName
-//    private fun injectDependencies() {
-//        DaggerActivityComponent.builder()
-//            .applicationComponent((application as MVVMApplication).applicationComponent)
-//            .activityModule(ActivityModule(this)).build().inject(this)
-//    }
 
     @Composable
     fun Loading(studentItem: StudentDetailItem) {
         Column {
-        //    LoadingScreen()
-
+            //    LoadingScreen()
+            val mutablelist=mutableListOf(1,2,3,4,5)
 //first
             Row {
                 Text(
@@ -156,7 +158,8 @@ class FlowActivity : AppCompatActivity() {
                 Text(
                     "Num of sat test takers", style = TextStyle(
                         fontSize = 16.sp, textAlign = TextAlign.Center
-                    ), modifier = Modifier.padding(16.dp)
+                    ), modifier = Modifier
+                        .padding(16.dp)
                         .weight(1f)
                 )
                 Text(
@@ -174,7 +177,8 @@ class FlowActivity : AppCompatActivity() {
                 Text(
                     "Sat critical reading avg score", style = TextStyle(
                         fontSize = 16.sp, textAlign = TextAlign.Center
-                    ), modifier = Modifier.padding(16.dp)
+                    ), modifier = Modifier
+                        .padding(16.dp)
                         .weight(1f)
                 )
                 Text(
@@ -192,7 +196,8 @@ class FlowActivity : AppCompatActivity() {
                 Text(
                     "Sat math avg score", style = TextStyle(
                         fontSize = 16.sp, textAlign = TextAlign.Center
-                    ), modifier = Modifier.padding(16.dp)
+                    ), modifier = Modifier
+                        .padding(16.dp)
                         .weight(1f)
                 )
                 Text(
@@ -210,7 +215,8 @@ class FlowActivity : AppCompatActivity() {
                 Text(
                     "Sat writing avg score", style = TextStyle(
                         fontSize = 16.sp, textAlign = TextAlign.Center
-                    ), modifier = Modifier.padding(16.dp)
+                    ), modifier = Modifier
+                        .padding(16.dp)
                         .weight(1f)
 
                 )
@@ -221,10 +227,8 @@ class FlowActivity : AppCompatActivity() {
                         .padding(16.dp)
                         .weight(1f)
                 )
-
             }
         }
-
     }
 
     @Composable

@@ -2,9 +2,10 @@ package com.example.myapplication
 
 //kotlin program chalane ke liye fun class ke bahar se call karna padega
 
-class HIgherOrderFunction public constructor() {
+class HIgherOrderFunction public constructor(val gg:String) {
     init {
         //d    hi("hello")
+        print(gg)
     }
 
     companion object {
@@ -15,15 +16,16 @@ class HIgherOrderFunction public constructor() {
     fun hi(hh: String) {
         println("inner")
         println(hh)
+        print(gg)
     }
 }
 
 fun HIgherOrderFunction.hi(): HIgherOrderFunction {
     println("outer")
-    return HIgherOrderFunction()
+    return HIgherOrderFunction("")
 }
 
-inline fun addValue(value: Float, b: Float): (Float, Float) -> Float {
+inline fun addValue(): (Float, Float) -> Float {
     return { a, b -> a + b }
 }
 
@@ -37,10 +39,10 @@ fun String.addValue(): String {
 
 fun main(ss: Array<String>) {
     //  println("hi")
-    val func = addValue(2f, 3.0f)
+    val func = addValue()
     println(func(2.0f, 3f))
     println("my name is dewansh".addValue())
-    var ss = HIgherOrderFunction()
+    var ss = HIgherOrderFunction("")
     println(ss.hi())
 
     val value: Int? = null

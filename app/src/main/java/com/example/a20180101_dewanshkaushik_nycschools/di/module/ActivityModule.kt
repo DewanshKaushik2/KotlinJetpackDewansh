@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
 import com.example.a20180101_dewanshkaushik_nycschools.activities.MainActivity
 import com.example.a20180101_dewanshkaushik_nycschools.di.ActivityContext
-import com.example.a20180101_dewanshkaushik_nycschools.di.ApplicationContext
 import com.example.a20180101_dewanshkaushik_nycschools.di.MainActivityQualifier
 import com.example.a20180101_dewanshkaushik_nycschools.di.MyActivityQualifier
 import com.example.a20180101_dewanshkaushik_nycschools.di.ViewModelProviderFactory

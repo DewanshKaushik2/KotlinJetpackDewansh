@@ -10,3 +10,5 @@ data class StudentDetailItem(
     val sat_writing_avg_score: String,
     val school_name: String
 )
+class gg(flag:Boolean)
+data class MyPerson(val flag:Boolean)

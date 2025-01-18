@@ -29,7 +29,7 @@ class MainViewModel@Inject constructor(private val topHeadlineRepository: TopHea
     private val _uiState = MutableStateFlow<UiState<StudentItem>>(UiState.Loading)
     val uiState: StateFlow<UiState<StudentItem>> = _uiState
 
-    var counterState = MutableStateFlow(1)
+    var counterState = MutableStateFlow(0)
 
     var loading = MutableStateFlow(false);
 

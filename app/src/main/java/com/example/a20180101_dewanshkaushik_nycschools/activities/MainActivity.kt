@@ -47,18 +47,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
-import com.example.a20180101_dewanshkaushik_nycschools.MVVMApplication
 import com.example.a20180101_dewanshkaushik_nycschools.StudentItem
 import com.example.a20180101_dewanshkaushik_nycschools.TopHeadlineRepository
-import com.example.a20180101_dewanshkaushik_nycschools.module.ActivityModule
-import com.example.a20180101_dewanshkaushik_nycschools.ui.composables.TimerScreen
+import com.example.a20180101_dewanshkaushik_nycschools.models.MyPerson
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -68,25 +70,39 @@ import javax.inject.Inject
 //https://github.com/lubnamariyam/MovieList_Retrofit_API_In_Compose
 //https://www.youtube.com/watch?v=bIVGIEMgc7Q&t=49s
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity @Inject constructor() : AppCompatActivity() {
     var MYTAG: String = "MainActivity"
+    lateinit var ss: String;
 
     // inject viewmodel in activity
     private val mainViewModel: MainViewModel by viewModels()
 
     fun myMethod() {
-        println("before")
-
-        runBlocking {
+        Log.e(MYTAG, "before")
+        val dd = runBlocking {
             launch {
                 delay(1000)
-                helloss("hi-launch")
+                Log.e(MYTAG, "inside first")
+//                helloss("hi-launch")
             }
-            async {
+            val result = async {
                 delay(500)
+                Log.e(MYTAG, "inside second")
                 helloss("hi-async")
+                4
+            }
+            val myrr = result.join();
+            Log.e(MYTAG, myrr.toString())
+            val newlist = listOf(async { MyPerson(true) },
+                async { MyPerson(true) },
+                async { MyPerson(flag = false) })
+           val mydata= newlist.awaitAll()
+           val newdata = mydata.filter { it.flag==true }
+            for (i in newdata) {
+                Log.e(MYTAG,"merawala" + i)
             }
         }
+        Log.e(MYTAG + "merawala", "before")
     }
 
     suspend fun helloss(value: String): String {
@@ -124,19 +140,15 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             mainViewModel.emitEvent("Hello, SharedFlow!")
         }
-//        val list = flowOf{1}
-//        val list2= mutableListOf(1)
-//        list2.asFlow()
+        val list = flowOf { 1 }
+        val list2 = mutableListOf(1, 2, 3)
+        flow<String> { emit("") }.flowOn(Dispatchers.IO)
+        lifecycleScope.launch {
+            list2.asFlow().collect {
+                println("myflow " + it)
+            }
+        }
     }
-
-/*
-
-    private fun injectDependencies() {
-        DaggerActivityComponent.builder()
-            .applicationComponent((application as MVVMApplication).applicationComponent)
-            .activityModule(ActivityModule(this)).build().inject(this)
-    }
-*/
 
     fun myviewmethod() {
         lifecycleScope.launch {
@@ -197,8 +209,8 @@ class MainActivity : AppCompatActivity() {
         val openAlertDialog = rememberSaveable { mutableStateOf(false) }
 
         Column {
-           // TimerScreen()
-               LoadingScreen()
+            // TimerScreen()
+            LoadingScreen()
 //this is list
             LazyColumn {
                 itemsIndexed(posts) { index, item ->
@@ -216,8 +228,8 @@ class MainActivity : AppCompatActivity() {
                                     // Put extra data into the Intent
                                     intent.putExtra("MESSAGE", item.dbn)
                                     startActivity(intent)
-//                                    context.startActivity(Intent(context, FlowActivity::class.java))
-                                 //d   openAlertDialog.value = true
+                                    context.startActivity(Intent(context, FlowActivity::class.java))
+                                    //d   openAlertDialog.value = true
                                     Toast
                                         .makeText(
                                             context,
@@ -237,17 +249,25 @@ class MainActivity : AppCompatActivity() {
                             Text(
                                 tt, style = TextStyle(
                                     fontSize = 16.sp, textAlign = TextAlign.Center
-                                ), modifier = Modifier.padding(16.dp).clickable {
-                                    val intent = Intent(context, FlowActivity::class.java)
-                                    intent.putExtra("MESSAGE", item.dbn)
-                                    startActivity(intent)       }
+                                ), modifier = Modifier
+                                    .padding(16.dp)
+                                    .clickable {
+                                        /*  setContent {
+                                          TimerScreen(this@MainActivity)
+                                      }*/
+                                        val intent = Intent(context, FlowActivity::class.java)
+                                        intent.putExtra("MESSAGE", item.dbn)
+                                        startActivity(intent)
+                                    }
                             )
                             // showDialog(tt, openAlertDialog)
                         }
-                        /*Button(onClick = { openAlertDialog.value = true }
-                        ,modifier= Modifier.padding(16.dp)) {
+                        Button(
+                            onClick = { openAlertDialog.value = true },
+                            modifier = Modifier.padding(16.dp)
+                        ) {
                             Text(text = "Open Dialog")
-                        }*/
+                        }
                         showDialog("hi", openAlertDialog)
                     }
                 }
@@ -261,9 +281,9 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun showDialog(data: String, openAlertDialog: MutableState<Boolean>) {
-       /* var selectedCity = rememberSaveable {
-            mutableStateOf(StudentItem("Madrid"))
-        }*/
+        /* var selectedCity = rememberSaveable {
+             mutableStateOf(StudentItem("Madrid"))
+         }*/
         if (openAlertDialog.value) {
             AlertDialogExample(
                 onDismissRequest = {

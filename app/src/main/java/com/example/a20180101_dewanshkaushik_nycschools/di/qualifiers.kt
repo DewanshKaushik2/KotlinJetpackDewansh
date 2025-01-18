@@ -4,7 +4,7 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class ApplicationContext
+annotation class AppllicationContext
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

@@ -2,18 +2,22 @@ package com.example.myapplication
 
 //kotlin program chalane ke liye fun class ke bahar se call karna padega
 
-
+const val ll = 0
+data class meri(var dd:Int);
+ class teri(dd:Int){}
 data class Person(var id: Int, var name: String, var className: String)
 class Myclass(id: Int) {
-    fun mydoo() {
-        val sum = higherorder(2f, 3f);
+
+    fun mydoo(id: Int) {
+        print(id)
+        val sum = higherorder();
         val finalsum = sum(2f, 3f)
         print(finalsum)
         "".myfunc()
     }
 }
 
-fun higherorder(first: Float, second: Float): (Float, Float) -> Float {
+fun higherorder(): (Float, Float) -> Float {
     return { first, second -> first + second }
 }
 
@@ -29,7 +33,8 @@ fun main(ss: Array<String>) {
     secondMethod()
     thirdMethod()
     fourthmethod()
-    val vv = Myclass(2).mydoo()
+    findPrefix()
+    val vv = Myclass(2).mydoo(87)
     println("" + vv + "mera wala")
 }
 
@@ -80,6 +85,24 @@ inline fun <reified T> printType(value: T) {
     println(" ${T::class.java}")
 }
 
+fun findPrefix() {
+    val list = mutableListOf("fijhgjh", "fihj", "fibjh", "finmb", "fijghgh")
+    var mynumber = ""
+    var count = 0;
+    var m:String="";var n:String="";
+    for (value in 0..list.size-1) {
+         m = list.get(0).substring(0,value)
+        for (value2 in 0..list.size-1) {
+                if(m.equals(list.get(value2).substring(0,value))){
+                    n=list.get(value2).substring(0,value)
+                }else{
+                    break;
+                }
+        }
+    }
+    println("myvalue" + n)
+}
+
 fun firstMethod() {
     // println("hi")
 
@@ -91,6 +114,6 @@ fun firstMethod() {
 
     println(dd.component1())
     println(dd.component2())
-
+    val gg = print(dd.copy())
 }
 

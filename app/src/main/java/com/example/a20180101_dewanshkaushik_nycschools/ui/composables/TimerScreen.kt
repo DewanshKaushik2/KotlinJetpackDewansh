@@ -1,6 +1,7 @@
 package com.example.a20180101_dewanshkaushik_nycschools.ui.composables
 
 import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,10 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.a20180101_dewanshkaushik_nycschools.activities.CoroutineActivity
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
 
     @Composable
-    fun TimerScreen(viewModel: MainViewModel = viewModel()) {
+    fun TimerScreen(componentActivity: ComponentActivity,
+                    viewModel: MainViewModel = viewModel()) {
+
         val context = LocalContext.current;
         val timerDuration = 60 // Duration in seconds
         var isTimerRunning by remember { mutableStateOf(false) }

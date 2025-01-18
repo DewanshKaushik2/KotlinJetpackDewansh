@@ -7,7 +7,7 @@ class Loops {
 
 fun main(array: Array<String>) {
     var hh: MyFile = secondclass()
-    hh.add(1, "", 2);
+    hh.add(1, "", 2)
 
     if (hh is secondclass) {
         println("second class")
@@ -44,6 +44,10 @@ fun main(array: Array<String>) {
     }
     // down to
     for(i in 5.downTo(1)){
+        print(i)
+    }
+    // down to
+    for(i in 5 downTo 1){
         print(i)
     }
     // step
