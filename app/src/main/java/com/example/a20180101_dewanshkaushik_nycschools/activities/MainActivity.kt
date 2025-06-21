@@ -35,8 +35,11 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,6 +77,9 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
     var MYTAG: String = "MainActivity"
     lateinit var ss: String;
 
+    @Inject
+    lateinit var topHeadlineRepository: TopHeadlineRepository
+
     // inject viewmodel in activity
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -96,10 +102,10 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
             val newlist = listOf(async { MyPerson(true) },
                 async { MyPerson(true) },
                 async { MyPerson(flag = false) })
-           val mydata= newlist.awaitAll()
-           val newdata = mydata.filter { it.flag==true }
+            val mydata = newlist.awaitAll()
+            val newdata = mydata.filter { it.flag == true }
             for (i in newdata) {
-                Log.e(MYTAG,"merawala" + i)
+                Log.e(MYTAG, "merawala" + i)
             }
         }
         Log.e(MYTAG + "merawala", "before")
@@ -109,12 +115,26 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
         return "data processed $value"
     }
 
-    @Inject
-    lateinit var topHeadlineRepository: TopHeadlineRepository
+    fun sequentialCoroutine() {
+
+    }
+
+    fun paralellCoroutine() {
+
+    }
+
+    fun supervisorCoroutine() {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.e(MYTAG, "")
         myMethod()
+        sequentialCoroutine()
+        paralellCoroutine()
+        supervisorCoroutine()
+
         setContent {
             JetpackComposeAndroidExamplesTheme {
                 // A surface container using the 'background' color from the theme
@@ -122,8 +142,8 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     val list = mutableListOf<StudentItem>()
-                    Greeting(mainViewModel)
-
+//                    Greeting(mainViewModel)
+                    Derived()
                 }
             }
         }
@@ -196,6 +216,28 @@ class MainActivity @Inject constructor() : AppCompatActivity() {
 //                    fontSize = 16.sp, textAlign = TextAlign.Center
 //                ), modifier = Modifier.padding(16.dp)
 //            )
+        }
+    }
+
+    @Composable
+    fun Derived() {
+        val tableof = remember { mutableStateOf(5) }
+        val index = produceState(initialValue = 1) {
+            repeat(9){
+                delay(1000)
+                value+=1
+            }
+        }
+        val message = derivedStateOf {
+            "${tableof.value} * ${index.value} = ${tableof.value * index.value} "
+        }
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize(1f)
+        ) {
+            Text(text = message.value,
+                style = MaterialTheme.typography.titleLarge)
         }
     }
 

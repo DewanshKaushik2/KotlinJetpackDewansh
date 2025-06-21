@@ -15,7 +15,6 @@ class ViewModelProviderFactory<T : ViewModel>(
 //    val topHeal:TopHeadlineRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
-
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalArgumentException::class)
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
