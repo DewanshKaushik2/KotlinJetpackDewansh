@@ -2,8 +2,11 @@ package com.example.a20180101_dewanshkaushik_nycschools.ui.composables
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import com.example.a20180101_dewanshkaushik_nycschools.StudentItem
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.MainViewModel
 import com.example.a20180101_dewanshkaushik_nycschools.viewmodels.UiState
@@ -35,9 +38,27 @@ open class CoroutineExample() {
                 //d   Greeting(blogList = dd)
             }
         }
+
     }
 
+    @Composable
+    fun MyScreen() {
+        val scope = rememberCoroutineScope()
+        LaunchedEffect(Unit) {
 
+        }
+        Button(onClick = {
+            scope.launch {
+                // Perform asynchronous operation here, e.g., show a Snackbar
+               // snackbarHostState.showSnackbar("Action completed!")
+                scope.launch {
+
+                }
+            }
+        }) {
+            Text("Perform Action")
+        }
+    }
     suspend fun printData(myCallback: (result: ArrayList<StudentItem>?) -> Unit) {
         var list: ArrayList<StudentItem>
         mainViewModel.uiState.collect {

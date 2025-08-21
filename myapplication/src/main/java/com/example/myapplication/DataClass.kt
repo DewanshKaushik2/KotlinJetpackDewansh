@@ -3,8 +3,9 @@ package com.example.myapplication
 //kotlin program chalane ke liye fun class ke bahar se call karna padega
 
 const val ll = 0
-data class meri(var dd:Int);
- class teri(dd:Int){}
+
+data class meri(var dd: Int);
+class teri(dd: Int) {}
 data class Person(var id: Int, var name: String, var className: String)
 class Myclass(id: Int) {
 
@@ -89,15 +90,16 @@ fun findPrefix() {
     val list = mutableListOf("fijhgjh", "fihj", "fibjh", "finmb", "fijghgh")
     var mynumber = ""
     var count = 0;
-    var m:String="";var n:String="";
-    for (value in 0..list.size-1) {
-         m = list.get(0).substring(0,value)
-        for (value2 in 0..list.size-1) {
-                if(m.equals(list.get(value2).substring(0,value))){
-                    n=list.get(value2).substring(0,value)
-                }else{
-                    break;
-                }
+    var m: String = "";
+    var n: String = "";
+    for (value in 0..list.size - 1) {
+        m = list.get(0).substring(0, value)
+        for (value2 in 0..list.size - 1) {
+            if (m.equals(list.get(value2).substring(0, value))) {
+                n = list.get(value2).substring(0, value)
+            } else {
+                break;
+            }
         }
     }
     println("myvalue" + n)

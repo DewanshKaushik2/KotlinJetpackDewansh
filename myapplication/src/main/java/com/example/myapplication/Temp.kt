@@ -3,30 +3,27 @@ class Temp {
 
 }
 
-fun String.myfunc(myname: String) {
-    println("hello " + this)
-    println(myname)
+fun higherOrder() : (Int,Int) -> Int {
+  return {a:Int, b:Int -> a+b}
 }
 
-fun add(a: Int, b: Int): (Int, Int) -> Int {
-    return { a, b -> a + b }
+fun String.myextension() : String{
+    return "my name is  $this"
 }
 
 data class Patient(var className: String)
 
 fun main() {
-    val lambda = { a: Int, b: Int -> a + b }
-    val sum = add(2, 3)
-    val gg = sum(2, 3)
-    println(gg)
-    "dewansh".myfunc("hh")
+   var a= higherOrder()
+    println("mere wala :-> " + a(1,2))
+    println("ddddd ".myextension())
     val p1 = Patient("Bhavesh")
     val p2 = Patient("Bhavesh")
 
-    print(p1 == p2)//true
-    print(p1.equals(p2))//true
-    print(p1 === p2)// false
-    print(p1 === p2)// false
+    println(p1 == p2)//true
+    println(p1.equals(p2))//true
+    println(p1 === p2)// false
+    println(p1 === p2)// false
 
 }
 

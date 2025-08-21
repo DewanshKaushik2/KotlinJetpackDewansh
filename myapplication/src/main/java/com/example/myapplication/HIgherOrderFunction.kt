@@ -33,15 +33,15 @@ fun myNextValue() {
     return;
 }
 
-fun String.addValue(): String {
-    return "hello i am $this"
+fun String.addValue(mystring:String?): String {
+    return "hello i am $this + $mystring"
 }
 
 fun main(ss: Array<String>) {
     //  println("hi")
     val func = addValue()
     println(func(2.0f, 3f))
-    println("my name is dewansh".addValue())
+    println("my name is dewansh".addValue("kaushik"))
     var ss = HIgherOrderFunction("")
     println(ss.hi())
 

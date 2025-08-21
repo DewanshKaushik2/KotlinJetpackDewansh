@@ -77,10 +77,11 @@ open class CoroutineActivity : AppCompatActivity() {
     private fun seriesCall() {
         println("before")
         lifecycleScope.launch {
-            val firstresult = async { firstFunction() }
+            val firstresult = launch { firstFunction() }
             val secondresult = async { secondFunction() }
-            println(firstresult.await())
+            println(firstresult.join())
             println(secondresult.await())
+            delay(2)
         }
         println("after")
     }
@@ -111,9 +112,9 @@ open class CoroutineActivity : AppCompatActivity() {
             return "second method"
             delay(1000)
         }
-        val floww=flow{emit(1)}
-      val ff=  MutableSharedFlow<Int>()
-        val dd= MutableStateFlow("m");
+        val floww = flow { emit(1) }
+        val ff = MutableSharedFlow<Int>()
+        val dd = MutableStateFlow("m");
     }
 
 
