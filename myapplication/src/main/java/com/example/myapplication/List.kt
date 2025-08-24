@@ -3,6 +3,7 @@ package com.example.myapplication
 class List<T> {
 
 }
+
 var myvalue = null
 var mystring: String? = null
 val mm: String by lazy {
@@ -13,7 +14,8 @@ fun main() {
     mystring.let {
         "hi"
     }
-//    println(mystring!!.toString())
+    //program will crash here
+    // println(mystring!!.toString())
     println(mystring?.toString())
     var k = mystring ?: "bar"
     println(k)
@@ -45,22 +47,22 @@ fun main() {
     //  }
 
 
-    var list = mutableListOf("1", 2, 3,2.3)
+    var list = mutableListOf("1", 2, 3, 2.3)
     var integerList = intArrayOf(1, 2, 3, 4, 5, 6)
     var secondList = intArrayOf()
     //1357
     //2 6 10 14
-   var thdd= integerList.filter { it ->
+    var thdd = integerList.filter { it ->
         it % 2 != 0
     }
 
-    for (i in thdd){
+    for (i in thdd) {
         println(i)
     }
 
     var thirdLIst = intArrayOf()
-    for(i in secondList){
-        var k = i*2;
+    for (i in secondList) {
+        var k = i * 2;
 
     }
 

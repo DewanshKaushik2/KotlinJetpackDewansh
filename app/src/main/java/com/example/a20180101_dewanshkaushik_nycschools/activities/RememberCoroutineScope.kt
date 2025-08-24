@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import com.example.a20180101_dewanshkaushik_nycschools.ui.theme.JetpackComposeAndroidExamplesTheme
@@ -32,6 +34,9 @@ class RememberCoroutineScope : BaseActivity() {
 
         val scope = rememberCoroutineScope();
         val context = LocalContext.current
+        val counter = remember { mutableStateOf(5) }
+        val list = remember { mutableListOf(5) }
+
         var text = "Counter is running ${counter.value}"
         if(counter.value == 10) {
             text = "Counter stopped"
@@ -41,10 +46,10 @@ class RememberCoroutineScope : BaseActivity() {
             Text(text = text)
             Button(onClick = {
                 scope.launch {
-                    Log.d("CoroutineScopeComposable","Start");
+                    Log.d("CoroutineScopeCo","Start");
                     try {
-                        for(i in ) {
-
+                        for(i in list) {
+                            print(i)
                         }
                     }catch (e:Exception){
                         e.printStackTrace()

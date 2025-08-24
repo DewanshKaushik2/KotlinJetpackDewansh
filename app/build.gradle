@@ -151,5 +151,6 @@ dependencies {
     //stripe
     implementation 'com.stripe:stripe-android:20.35.0' // Use the latest version
 
-  
+    testImplementation 'junit:junit:4.12'
+
 }

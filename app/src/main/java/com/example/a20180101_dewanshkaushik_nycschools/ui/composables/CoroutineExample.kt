@@ -54,6 +54,7 @@ open class CoroutineExample() {
                 scope.launch {
 
                 }
+
             }
         }) {
             Text("Perform Action")
@@ -74,6 +75,10 @@ open class CoroutineExample() {
                 is UiState.Success -> {
                     Log.e(MYTAG.toString(), it.data.toString())
                     myCallback.invoke(it.data)
+                }
+
+                is UiState.Success2 -> {
+
                 }
             }
         }
